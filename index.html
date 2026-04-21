@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material de Clase - Prof. Diego Rodriguez | EETP 485</title>
+    <style>
+        :root {
+            --color-primario: #1a5276;
+            --color-secundario: #2980b9;
+            --color-acento: #e74c3c;
+            --color-fondo: #f0f4f8;
+            --color-tarjeta: #ffffff;
+            --color-texto: #2c3e50;
+            --color-texto-claro: #7f8c8d;
+            --borde-radio: 12px;
+            --sombra: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            animation: rotar 20s linear infinite;
+        }
+
+        @keyframes rotar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .header-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .header h2 { font-size: 1.1rem; font-weight: 400; opacity: 0.9; }
+        .header .materia-badge {
+            display: inline-block; background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px); padding: 0.4rem 1.5rem; border-radius: 50px;
+            margin-top: 1rem; font-weight: 600; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* ========== BARRA DE BÚSQUEDA ========== */
+        .search-bar { max-width: 700px; margin: -1.5rem auto 2rem; padding: 0 1.5rem; position: relative; z-index: 2; }
+        .search-bar input {
+            width: 100%; padding: 1rem 1.5rem 1rem 3rem; border: none; border-radius: 50px;
+            font-size: 1rem; box-shadow: 0 8px 25px rgba(0,0,0,0.12); outline: none; transition: box-shadow 0.3s;
+        }
+        .search-bar input:focus { box-shadow: 0 8px 30px rgba(41, 128, 185, 0.25); }
+        .search-bar .search-icon { position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0.4; }
+
+        /* ========== FILTROS ========== */
+        .filtros { max-width: 900px; margin: 0 auto 1.5rem; padding: 0 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+        .filtro-btn {
+            padding: 0.4rem 1.2rem; border: 2px solid var(--color-secundario); background: transparent;
+            color: var(--color-secundario); border-radius: 50px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s;
+        }
+        .filtro-btn:hover, .filtro-btn.active { background: var(--color-secundario); color: white; }
+
+        /* ========== CONTENEDOR PRINCIPAL ========== */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+        .seccion-titulo { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--color-secundario); display: inline-block; }
+
+        /* ========== TARJETA DE MATERIAL ========== */
+        .material-card { background: var(--color-tarjeta); border-radius: var(--borde-radio); box-shadow: var(--sombra); margin-bottom: 1.2rem; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+        .material-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .material-card-header { padding: 1.2rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; }
+        .material-icon { font-size: 2.2rem; flex-shrink: 0; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+        .icon-pdf { background: #fde8e8; } .icon-doc { background: #e8f0fd; } .icon-ppt { background: #fde8cc; } .icon-xls { background: #e8fde8; } .icon-link { background: #e8f0fd; }
+
+        .material-info { flex: 1; }
+        .material-info h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--color-texto); }
+        .material-meta { display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: 0.8rem; color: var(--color-texto-claro); }
+        .material-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        .tag { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 50px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .tag-unidad { background: #e8f0fd; color: #2980b9; }
+        .tag-semana { background: #fde8cc; color: #e67e22; }
+        .tag-extra { background: #e8fde8; color: #27ae60; }
+        .tag-examen { background: #fde8e8; color: #e74c3c; }
+
+        .material-card-body { display: none; padding: 0 1.5rem 1.5rem; }
+        .material-card.expanded .material-card-body { display: block; }
+        .material-card.expanded .toggle-icon { transform: rotate(180deg); }
+        .toggle-icon { font-size: 1.2rem; transition: transform 0.3s; flex-shrink: 0; margin-top: 0.3rem; color: var(--color-texto-claro); }
+
+        /* ========== VISTA PREVIA ========== */
+        .preview-container { background: #f8f9fa; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; border: 1px solid #e0e0e0; }
+        .preview-container h4 { font-size: 0.85rem; color: var(--color-texto-claro); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.8rem; }
+        .preview-item { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: transform 0.2s; }
+        .preview-item:hover { transform: scale(1.03); }
+        .preview-thumb { width: 100%; height: 120px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 2rem; }
+        .preview-name { padding: 0.5rem 0.7rem; font-size: 0.75rem; color: var(--color-texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* ========== BOTÓN MEDIAFIRE ========== */
+        .action-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .btn-mediafire {
+            display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, #0077ff, #00bbff); color: white; text-decoration: none;
+            border-radius: 8px; font-weight: 700; font-size: 0.95rem; transition: all 0.3s;
+            box-shadow: 0 3px 12px rgba(0, 119, 255, 0.35); letter-spacing: 0.5px;
+        }
+        .btn-mediafire:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45); background: linear-gradient(135deg, #0066dd, #00aadd); }
+        .btn-mediafire svg { width: 22px; height: 22px; fill: white; }
+
+        /* ========== FOOTER ========== */
+        .footer { text-align: center; padding: 2rem; color: var(--color-texto-claro); font-size: 0.85rem; border-top: 1px solid #e0e0e0; margin-top: 2rem; }
+        .footer a { color: var(--color-secundario); text-decoration: none; }
+        .no-results { text-align: center; padding: 3rem; color: var(--color-texto-claro); display: none; }
+        .no-results .emoji { font-size: 3rem; margin-bottom: 1rem; }
+
+        /* ========== RESPONSIVE & ANIMACIONES ========== */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5rem; } .header h2 { font-size: 0.95rem; }
+            .material-card-header { padding: 1rem; } .material-card-body { padding: 0 1rem 1rem; }
+            .preview-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .action-buttons { flex-direction: column; } .btn-mediafire { justify-content: center; }
+        }
+        .material-card { animation: fadeInUp 0.4s ease forwards; opacity: 0; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .material-card:nth-child(1) { animation-delay: 0.05s; } .material-card:nth-child(2) { animation-delay: 0.1s; }
+        .material-card:nth-child(3) { animation-delay: 0.15s; } .material-card:nth-child(4) { animation-delay: 0.2s; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <h1>⚡ Prof. Diego Rodriguez</h1>
+            <h2>🏫 EETP 485</h2>
+            <div class="materia-badge">📐 TALLER MEDICIONES ELÉCTRICAS — 4° AÑO</div>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Buscar material por nombre, unidad o tema...">
+    </div>
+
+    <div class="filtros">
+        <button class="filtro-btn active" onclick="filtrar('todos', this)">📋 Todos</button>
+        <button class="filtro-btn" onclick="filtrar('manual', this)">📘 Manuales</button>
+        <button class="filtro-btn" onclick="filtrar('seguridad', this)">🛡️ Seguridad</button>
+        <button class="filtro-btn" onclick="filtrar('practica', this)">📋 Prácticas</button>
+    </div>
+
+    <main class="container">
+        <h2 class="seccion-titulo">📂 Material de Estudio</h2>
+        <div id="materiales">
+
+            <!-- 📘 MANUAL 1: Supervivencia -->
+            <div class="material-card" data-categoria="manual" data-tags="manual supervivencia electromecánico guia operativa taller ohm kirchhoff transformadores motores trifasicas">
+                <div class="material-card-header" onclick="toggleCard(this)">
+                    <div class="material-icon icon-pdf">📘</div>
+                    <div class="material-info">
+                        <h3>Manual de Supervivencia: Guía Operativa del Taller</h3>
+                        <div class="material-meta">
+                            <span class="tag tag-unidad">📘 Manual Principal</span>
+                            <span>📄 PDF Completo</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="material-card-body">
+                    <div class="preview-container">
+                        <h4>👁️ Contenido del material</h4>
+                        <div class="preview-grid">
+                            <div class="preview-item"><div class="preview-thumb">⚡</div><div class="preview-name">Fundamentos: Tensión, Corriente y Resistencia</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🔌</div><div class="preview-name">Circuitos Serie vs. Paralelo</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">📐</div><div class="preview-name">Leyes de Ohm y Kirchhoff</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #fa709a, #fee140);">🔄</div><div class="preview-name">Transformadores y Conexiones Trifásicas</div></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="https://www.mediafire.com/file/https://www.mediafire.com/file/6icf36okt6ac9ln/Manual_del_T%25C3%25A9cnico_Electromec%25C3%25A1nico.pdf/file" target="_blank" class="btn-mediafire">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4 8l8 14 8-14-8-6zm0 3.5L18.5 12 12 20 5.5 12 12 5.5z"/></svg>
+                            Descargar desde MediaFire
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🛡️ MANUAL 2: Seguridad y Mediciones -->
+            <div class="material-card" data-categoria="seguridad" data-tags="seguridad industrial bloqueo etiquetado epp medicion pinza amperimetrica induccion electromagnetica desfasaje rl c">
+                <div class="material-card-header" onclick="toggleCard(this)">
+                    <div class="material-icon icon-pdf">🛡️</div>
+                    <div class="material-info">
+                        <h3>Manual de Campo: Seguridad Industrial y Técnicas de Medición</h3>
+                        <div class="material-meta">
+                            <span class="tag tag-extra">🛡️ Seguridad & Campo</span>
+                            <span>📄 PDF</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="material-card-body">
+                    <div class="preview-container">
+                        <h4>👁️ Contenido del material</h4>
+                        <div class="preview-grid">
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🚨</div><div class="preview-name">Protocolo de Seguridad: 5 Reglas de Oro</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #f39c12, #e67e22);">🔍</div><div class="preview-name">Técnica de Medición con Pinza Amperimétrica</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #667eea, #764ba2);">🌊</div><div class="preview-name">Onda Senoidal y Desfasajes (R-L-C)</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">⚙️</div><div class="preview-name">Control Lógico y Rele Autoalimentado</div></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="https://www.mediafire.com/file/https://www.mediafire.com/file/ba9wug46tindk36/Manual_de_Electromec%25C3%25A1nica_Industrial.pdf/file" target="_blank" class="btn-mediafire">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4 8l8 14 8-14-8-6zm0 3.5L18.5 12 12 20 5.5 12 12 5.5z"/></svg>
+                            Descargar desde MediaFire
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⚡ MANUAL 3: Motores -->
+            <div class="material-card" data-categoria="manual" data-tags="motores electricos corriente alterna continua estrella triangulo arranque inversion giro chapa caracteristica">
+                <div class="material-card-header" onclick="toggleCard(this)">
+                    <div class="material-icon icon-doc">⚡</div>
+                    <div class="material-info">
+                        <h3>Guía de Estudio: Motores Eléctricos (CC y CA)</h3>
+                        <div class="material-meta">
+                            <span class="tag tag-unidad">📘 Manual Especializado</span>
+                            <span>📄 PDF</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="material-card-body">
+                    <div class="preview-container">
+                        <h4>👁️ Contenido del material</h4>
+                        <div class="preview-grid">
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🏭</div><div class="preview-name">Árbol Genealógico: CC vs CA</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #fa709a, #fee140);">🔧</div><div class="preview-name">Chapa Característica: Lectura y Cálculo</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">🔌</div><div class="preview-name">Conexiones Estrella vs Triángulo</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">🔄</div><div class="preview-name">Arranque, Inversión de Giro y Enclavamiento</div></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="https://www.mediafire.com/file/https://www.mediafire.com/file/c46qo74ayuq6vd1/Motores_Electricos_documento.pdf/file" target="_blank" class="btn-mediafire">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4 8l8 14 8-14-8-6zm0 3.5L18.5 12 12 20 5.5 12 12 5.5z"/></svg>
+                            Descargar desde MediaFire
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📋 TP1: Práctica -->
+            <div class="material-card" data-categoria="practica" data-tags="tp1 practica laboratorio diagnostico corriente alterna resistencia capacitancia inductancia rl c medicion">
+                <div class="material-card-header" onclick="toggleCard(this)">
+                    <div class="material-icon icon-xls">📋</div>
+                    <div class="material-info">
+                        <h3>TP1: Protocolo de Diagnóstico en Corriente Alterna</h3>
+                        <div class="material-meta">
+                            <span class="tag tag-semana">📋 Práctica de Laboratorio</span>
+                            <span>📄 PDF Guía de TP</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="material-card-body">
+                    <div class="preview-container">
+                        <h4>👁️ Contenido del material</h4>
+                        <div class="preview-grid">
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #667eea, #764ba2);">📊</div><div class="preview-name">Matriz de Equipamiento por Grupo</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">💡</div><div class="preview-name">Estación A: Resistencia Pura (Lámpara)</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🔋</div><div class="preview-name">Estación B: Capacitancia (20μF)</div></div>
+                            <div class="preview-item"><div class="preview-thumb" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🧲</div><div class="preview-name">Estación C: Inductancia (Bobina)</div></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="https://www.mediafire.com/file/https://www.mediafire.com/file/nfxu1pa09151097/Protocolo_diagnostico_CA.pdf/file" target="_blank" class="btn-mediafire">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4 8l8 14 8-14-8-6zm0 3.5L18.5 12 12 20 5.5 12 12 5.5z"/></svg>
+                            Descargar desde MediaFire
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="no-results" id="noResults">
+            <div class="emoji">🔍</div>
+            <h3>No se encontró material</h3>
+            <p>Intenta con otra búsqueda o cambia el filtro.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>⚡ Prof. Diego Rodriguez — Taller Mediciones Eléctricas</p>
+        <p>🏫 EETP 485 — 4° Año</p>
+        <p style="margin-top: 0.5rem;">© 2026 — Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        function toggleCard(header) {
+            const card = header.closest('.material-card');
+            card.classList.toggle('expanded');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.material-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const texto = card.textContent.toLowerCase();
+                const tags = (card.dataset.tags || '').toLowerCase();
+                const match = texto.includes(query) || tags.includes(query);
+                card.style.display = match ? 'block' : 'none';
+                if (match) visibleCount++;
+            });
+            document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+        });
+
+        function filtrar(categoria, btn) {
+            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const cards = document.querySelectorAll('.material-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                if (categoria === 'todos' || card.dataset.categoria === categoria) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
